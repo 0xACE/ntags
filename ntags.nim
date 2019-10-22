@@ -318,7 +318,27 @@ proc main() =
       incl options, Follow
     of "--fix-eol":
       incl options, FixEol
+    of "--version":
+      echo("Universal Ctags Exuberant Ctags 6.0")
+      # Tagbar uses these params, but i put other f v t for tokentypes
+      #--version
+      #--list-languages
+      #-f - --format=2 --excmd=pattern --fields=nksSaf --extra= --file-scope=yes --sort=no --append=no --language-force=nim --nim-kinds=picsmtfv /tmp/vkvkeLh/4.nim
+      #
+    of "--list-languages":
+      echo("nim")
+    of "--append":
+      discard
+    of "--exclude":
+      if i == nargs:
+        fatal("missing argument to --exclude option")
+      i += 1
+      # tagsFile = paramStr(i)
     else:
+      if "--options" in arg:
+        incl options, Recurse # gutetags only has the recurse option set
+        i += 1
+        continue
       if arg[0] == '-':
         fatal("unrecognized option: " & arg)
       for tag in parseFileOrDir(arg, options):
